@@ -1,0 +1,20 @@
+[2026-10-02 19:11:06] Usuario registrado: Anthony
+[2026-10-02 19:11:06] Usuario registrado: Maria
+[2026-10-02 19:11:06] Usuario registrado: Carlos
+[2026-10-02 19:11:06] Intento de registrar usuario existente: Anthony
+[2026-10-02 19:11:06] Inicio de sesion exitoso: Anthony
+[2026-10-02 19:11:06] Inicio de sesion fallido: Anthony
+[2026-10-02 19:11:06] Inicio de sesion fallido: Pedro
+[2026-10-02 19:11:06] Usuario eliminado: Maria
+[2026-10-02 19:13:03] Usuario registrado: Anthony
+[2026-10-02 19:13:03] Usuario registrado: Maria
+[2026-10-02 19:13:03] Usuario registrado: Carlos
+[2026-10-02 19:13:03] Intento de registrar usuario existente: Anthony
+[2026-10-02 19:13:03] Inicio de sesion exitoso: Anthony
+[2026-10-02 19:13:03] Inicio de sesion fallido: Anthony
+[2026-10-02 19:13:03] Inicio de sesion fallido: Pedro
+[2026-10-02 19:13:03] Usuario eliminado: Maria
+[2026-10-02 19:13:03] Usuario registrado: Usuario0
+[2026-10-02 19:13:03] Usuario registrado: Usuario11
+[2026-10-02 19:13:03] Inicio de sesion exitoso: Usuario0
+[2026-10-02 19:13:03] Inicio de sesion exitoso: Usuario11
