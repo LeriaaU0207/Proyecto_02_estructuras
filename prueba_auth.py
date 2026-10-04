@@ -1,5 +1,4 @@
-from auth.auth_manager import AuthManager
-
+from auth_manager import AuthManager
 
 auth = AuthManager()
 

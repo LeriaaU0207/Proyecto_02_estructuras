@@ -1,4 +1,4 @@
-from auth.tabla_hash import TablaHash
+from tabla_hash import TablaHash
 from datetime import datetime
 
 
