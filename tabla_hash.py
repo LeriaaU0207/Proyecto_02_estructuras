@@ -1,5 +1,4 @@
-from auth.usuario import Usuario
-
+from usuario import Usuario
 
 class NodoHash:
     def __init__(self, usuario):
