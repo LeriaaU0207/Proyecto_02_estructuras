@@ -62,3 +62,4 @@ except ValueError as error:
     print(f"Correcto, se rechazó la operación: {error}")
 
 sistema.mostrar_arbol()  # No debe haber cambiado.
+"""
