@@ -3,6 +3,7 @@
 #==============================================================================     
 #Archivo que contiene las pruebas de la clase FileSystemManager
 #Este se creo para poder ejecutar los tests desde la consola de manere temporal 
+"""
 from file_system_manager import FileSystemManager
 
 #definición de la función para preparar el sistema
