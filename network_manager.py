@@ -1,11 +1,14 @@
 from datetime import datetime
 from grafo import Grafo
-
+from file_system_manager import FileSystemManager
+from auth_manager import AuthManager
 
 class NetworkManager:
     def __init__(self, archivo_log="network_audit_log.txt"):
         self.grafo = Grafo()
         self.archivo_log = archivo_log
+        self.sistemas_archivos = {}
+        self.autenticaciones = {}
 
     def registrar_log(self, mensaje):
         fecha = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -13,12 +16,28 @@ class NetworkManager:
             archivo.write(f"[{fecha}] [RED] {mensaje}\n")
 
     def agregar_servidor(self, nombre):
+        archivos = FileSystemManager(nombre)
+        auth = AuthManager()
+
         self.grafo.agregar_servidor(nombre)
+        self.sistemas_archivos[nombre] = archivos
+        self.autenticaciones[nombre] = auth
+
         self.registrar_log("Servidor agregado: " + nombre)
+
 
     def eliminar_servidor(self, nombre):
         self.grafo.eliminar_servidor(nombre)
-        self.registrar_log("Servidor eliminado con sus conexiones: " + nombre)
+
+        archivos = self.sistemas_archivos[nombre]
+        archivos._limpiar_subarbol(archivos.raiz)
+
+        del self.sistemas_archivos[nombre]
+        del self.autenticaciones[nombre]
+
+        self.registrar_log(
+            "Servidor eliminado con sus conexiones, archivos y usuarios: " + nombre
+        )
 
     def agregar_conexion(self, origen, destino, latencia):
         self.grafo.agregar_conexion(origen, destino, latencia)
@@ -110,3 +129,16 @@ class NetworkManager:
                 print(contenido)
         except FileNotFoundError:
             print("Todavía no hay registros de auditoría.")
+
+
+    def obtener_file_system(self, nombre):
+        if nombre not in self.sistemas_archivos:
+            raise ValueError("No existe el servidor: " + nombre)
+
+        return self.sistemas_archivos[nombre]
+
+    def obtener_auth(self, nombre):
+        if nombre not in self.autenticaciones:
+            raise ValueError("No existe el servidor: " + nombre)
+
+        return self.autenticaciones[nombre]

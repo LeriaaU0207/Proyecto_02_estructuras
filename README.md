@@ -31,9 +31,9 @@ La IA generó los archivos del módulo y las pruebas. Después pedí simplificar
 
 Se simplificaron algunas condiciones y las pruebas, manteniendo Dijkstra, BFS y la auditoría. Reemplacé los archivos anteriores e hice el commit en mi rama Boris.
 
-## Pendiente
+**7 de octubre 2026
 
-Unir esta parte con los módulos de mis compañeros en el menú principal y agregar los cambios que se pidan en los sprints. Al integrar el README, hay que conservar las bitácoras de todos.
+Uni todas las partes con los módulos de mis compañeros en el menú principal y agregar los cambios que se pidan en los sprints. Al integrar el README, hay que conservar las bitácoras de todos.
 # Proyecto_02_estructuras
 ### Adaptación y revisión
 

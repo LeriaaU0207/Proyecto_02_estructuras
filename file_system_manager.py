@@ -71,16 +71,17 @@ class FileSystemManager:
 
     #imprime el árbol
     def mostrar_arbol(self):
-        def mostrar(nodo, profundidad):                          #función recursiva para mostrar el árbol   
-            sangria = " " * profundidad                          #sangría para indentar el árbol
-            nombre = nodo.nombre                                #nombre del nodo
+        def mostrar(nodo, profundidad):
+            nombre = nodo.nombre
 
-            if nodo.tipo == "carpeta" and nodo is not self.raiz:    #si es una carpeta y no es la raíz
-                nombre += "/"                                    #se agrega / al final
-            print(sangria + nombre)                             #imprime el nombre del nodo
+            if nodo.tipo == "carpeta" and nodo is not self.raiz:
+                nombre += "/"
+
+            print("  " * profundidad + nombre)
 
             for hijo in nodo.hijos:
-                    mostrar(hijo, profundidad + 1)               #llama a la función recursiva para imprimir el árbol
+                mostrar(hijo, profundidad + 1)
+
         mostrar(self.raiz, 0)
 
     #limpia el árbol de los hijos

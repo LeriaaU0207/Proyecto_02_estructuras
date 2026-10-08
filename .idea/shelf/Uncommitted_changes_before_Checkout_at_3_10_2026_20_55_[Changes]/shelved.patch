@@ -1,0 +1,212 @@
+Index: README.md
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># Proyecto_02_estructuras
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/README.md b/README.md
+--- a/README.md	(revision 2e6f0e73071a7d160b5df084a80e7bec3eb84aa2)
++++ b/README.md	(date 1791081875796)
+@@ -1,1 +1,199 @@
+-# Proyecto_02_estructuras
+\ No newline at end of file
++# Proyecto 2 EIF207 - Parte C de Boris Arias Quintana
++
++Módulo de grafo y enrutamiento para el Sistema Operativo de Red. Está basado en los requisitos del PDF entregado y en la división de roles del equipo. Incluye la parte C y su auditoría. El menú de este paquete permite probar la red de forma independiente.
++
++## Cómo ejecutarlo
++
++1. Extraer este ZIP.
++2. Abrir la carpeta `Parte_C_Boris` en el editor.
++3. Ejecutar `menu_red.py` o abrir una terminal en esa carpeta y escribir:
++
++```bash
++python menu_red.py
++```
++
++En Windows también puede usarse `py menu_red.py`. Requiere Python 3.8 o posterior. No hay que instalar paquetes.
++
++Los servidores y conexiones se guardan en memoria: se pierden al cerrar el programa. La auditoría queda en `network_audit_log.txt` dentro de la carpeta desde la que se ejecuta el programa. Se crea al realizar la primera operación y conserva lo anterior mediante append. No se entrega un log precargado.
++
++## Archivos
++
++| Archivo | Función |
++| --- | --- |
++| `grafo.py` | Almacena servidores y conexiones. Implementa Dijkstra y BFS desde cero. |
++| `network_manager.py` | Interfaz para el menú. Imprime resultados y registra acciones. |
++| `menu_red.py` | Menú de prueba de la parte C y ejemplo para la defensa. |
++| `pruebas_red.py` | Pruebas automáticas de rutas, validaciones, diagnóstico y auditoría. |
++| `README.md` | Instrucciones, integración, guía de defensa y bitácora de IA. |
++
++## Decisiones sencillas del módulo
++
++- El grafo es no dirigido: una conexión A-B sirve en ambos sentidos. El PDF no fija una dirección; se asume una conexión de fibra bidireccional.
++- Se usa un diccionario donde cada servidor guarda una lista de pares `(vecino, latencia)`. La tabla hash propia de autenticación sigue siendo responsabilidad del módulo B. Este diccionario solo organiza el grafo.
++- Dijkstra se programa con ciclos y sin cola de prioridad para que sea más fácil de explicar. No se usa ninguna biblioteca de grafos.
++- Las latencias pueden ser cero o positivas, incluso decimales. Se rechazan negativos, infinito y valores no numéricos.
++- Los nombres distinguen mayúsculas y minúsculas. Se permiten espacios internos, pero no nombres vacíos, saltos de línea ni espacios en los extremos.
++- No se permiten conexiones duplicadas ni conexiones de un servidor consigo mismo. Para cambiar una latencia se elimina la conexión y se vuelve a agregar.
++- Eliminar un servidor también elimina sus conexiones en las listas de sus vecinos.
++- Los comentarios del código son cortos y usan `#`, porque es la sintaxis de Python. No hay comentarios de bloque.
++
++## Demostración rápida
++
++1. Ejecutar el menú y elegir **9** para cargar el ejemplo en una red vacía.
++2. Elegir **5** para ver las conexiones.
++3. Elegir **6**, origen **A**, destino **D**, y responder **s** para ver Dijkstra.
++4. Debe imprimir la ruta **A -> C -> B -> D**, tres saltos y **4 ms** en total.
++5. Elegir **7** desde **A**: E aparece como no alcanzable y aislado.
++6. Elegir **3** y conectar **D** con **E** con latencia **2**.
++7. Repetir el ping desde A: ahora todos son alcanzables.
++8. Elegir **8** para consultar las acciones reales registradas.
++
++Todas las operaciones de carga del ejemplo también pasan por NetworkManager y quedan registradas.
++
++## Cómo integrarlo con el equipo
++
++Copiar `grafo.py`, `network_manager.py` y `menu_red.py` a la raíz del proyecto, al mismo nivel del futuro `main.py`. Conservar los archivos de Valeria y Anthony. Las pruebas y este README pueden guardarse aparte; no reemplazar el README del equipo: agregarle la bitácora de Boris y las instrucciones que correspondan.
++
++En el menú principal, crear **una sola instancia** de NetworkManager y reutilizarla al abrir el submenú:
++
++```python
++from network_manager import NetworkManager
++from menu_red import menu_red
++
++red = NetworkManager()
++
++# Dentro de la opción de red del menú principal
++menu_red(red)
++```
++
++No crear `red` nuevamente cada vez que se abra el submenú, porque se perdería la topología anterior. La opción 0 devuelve el control al menú que lo llamó. También se puede llamar directamente a cada operación:
++
++| Método de NetworkManager | Resultado |
++| --- | --- |
++| `agregar_servidor(nombre)` | Registra un servidor sin conexiones. |
++| `eliminar_servidor(nombre)` | Elimina el servidor y sus conexiones. |
++| `agregar_conexion(origen, destino, latencia)` | Crea una conexión bidireccional. |
++| `eliminar_conexion(origen, destino)` | Elimina la conexión en ambos sentidos. |
++| `mostrar_red()` | Imprime las listas de adyacencia. |
++| `enviar_paquete(origen, destino, mostrar_pasos=False)` | Imprime saltos y costo; devuelve `(ruta, costo)`. Sin ruta devuelve `([], infinito)`. |
++| `ping_general(origen)` | Imprime el diagnóstico y devuelve `(alcanzables, no_alcanzables, aislados)`. |
++| `mostrar_auditoria()` | Imprime el archivo compartido de auditoría. |
++
++Las operaciones inválidas lanzan ValueError. El menú captura ese error y permite seguir usando el programa. Si la auditoría falla por un problema de disco o permisos, se informa: una modificación del grafo puede haberse realizado antes del fallo al escribir.
++
++Las operaciones del menú deben pasar por NetworkManager para quedar auditadas. Grafo se encarga únicamente de la estructura y los algoritmos. La visualización no modifica el estado; no agrega registros.
++
++Para compartir el log con AuthManager, ejecutar el menú principal desde la misma carpeta: ambos usan por defecto el nombre relativo `network_audit_log.txt`. El constructor de NetworkManager permite otra ruta para pruebas.
++
++El requisito global de que cada servidor tenga su árbol y sus credenciales debe resolverse al integrar A, B y C: mantener una instancia independiente de FileSystemManager y AuthManager por servidor, y seleccionar la correspondiente desde el menú principal. Este paquete proporciona los nombres y la topología; no mezcla ni modifica las ramas de los compañeros. La integración completa, los commits/PR y los sprints siguen siendo tareas del equipo.
++
++## Guía de defensa: el grafo
++
++Un vértice representa un servidor. Una arista representa una conexión. Su peso representa latencia en milisegundos. Por ejemplo, la lista de A en el ejemplo contiene B con peso 4 y C con peso 1. Como el grafo es no dirigido, B y C también guardan sus conexiones hacia A.
++
++Al eliminar una conexión se quita de las dos listas. Al eliminar un servidor se recorren sus vecinos, se borran las referencias hacia él y luego se elimina su entrada. Así no quedan conexiones hacia un servidor inexistente.
++
++## Guía de defensa: Dijkstra paso a paso
++
++La idea es escoger siempre el servidor pendiente con menor costo acumulado y revisar si pasar por él mejora los costos de sus vecinos.
++
++Variables principales:
++
++| Variable | Para qué sirve |
++| --- | --- |
++| `distancias` | Mejor costo conocido desde el origen hasta cada servidor. |
++| `anteriores` | Servidor previo en la mejor ruta conocida; permite reconstruirla. |
++| `visitados` | Servidores cuyo costo mínimo ya quedó fijado. |
++| `actual` | Servidor pendiente con la menor distancia. |
++| `nuevo_costo` | Distancia al actual más el peso de su conexión al vecino. |
++| `pasos` | Explicaciones para mostrar durante la demostración. |
++
++1. Colocar distancia 0 en el origen e infinito en los demás.
++2. Buscar el servidor no visitado con menor distancia.
++3. Marcarlo como visitado. Si ya es el destino, terminar.
++4. Para cada vecino pendiente, sumar `distancias[actual] + latencia`.
++5. Si esa suma mejora su distancia, actualizar `distancias` y `anteriores`.
++6. Repetir hasta fijar el destino o no encontrar más servidores alcanzables.
++7. Seguir `anteriores` desde el destino y dar vuelta a la lista para imprimir la ruta.
++
++El ejemplo tiene conexiones A-B=4, A-C=1, C-B=2, B-D=1 y C-D=5. E no tiene conexiones. Para ir de A a D:
++
++| Momento | A | B | C | D | E | Cambio |
++| --- | --- | --- | --- | --- | --- | --- |
++| Inicio | 0 | infinito | infinito | infinito | infinito | Se inicia en A. |
++| Se fija A | 0 | 4 | 1 | infinito | infinito | Se descubren B y C. |
++| Se fija C | 0 | 3 | 1 | 6 | infinito | B mejora con 1+2=3; D queda en 1+5=6. |
++| Se fija B | 0 | 3 | 1 | 4 | infinito | D mejora con 3+1=4. |
++| Se fija D | 0 | 3 | 1 | 4 | infinito | Se llegó al destino; termina. |
++
++Los anteriores de D, B y C son B, C y A. Se recupera D, B, C, A y se invierte: **A, C, B, D**. Los saltos cuestan 1, 2 y 1 ms: total 4 ms. La ruta A-B-D cuesta 5 ms y A-C-D cuesta 6 ms.
++
++Preguntas probables:
++
++- **¿Por qué infinito?** Representa que todavía no se conoce una ruta.
++- **¿Por qué no aceptar negativos?** Dijkstra fija costos suponiendo pesos no negativos. Un peso negativo puede invalidar esa decisión.
++- **¿Qué pasa si no hay ruta?** No queda un pendiente con distancia finita; se devuelve ruta vacía y costo infinito.
++- **¿Y si origen y destino coinciden?** La ruta contiene ese servidor, cuesta cero y no necesita saltos.
++- **¿Y si hay empate?** Devuelve una de las rutas mínimas; en esta implementación influye el orden de inserción de los servidores y vecinos.
++- **¿Usa menos saltos?** Minimiza la suma de latencias. La mejor ruta puede tener más saltos.
++
++## Guía de defensa: BFS y Ping General
++
++BFS visita por niveles: primero el origen, luego sus vecinos, después los vecinos de esos vecinos. Usa una cola FIFO. La lista `cola` agrega elementos al final y el índice `posicion` indica cuál procesar, sin borrar el primero en cada vuelta.
++
++El conjunto `descubiertos` evita agregar el mismo servidor varias veces, incluso cuando hay ciclos. Se marca al agregarlo a la cola.
++
++El ping distingue:
++
++- **Alcanzable:** BFS puede llegar a él desde el origen.
++- **No alcanzable:** pertenece a otra zona de la red o no tiene conexiones.
++- **Aislado:** no tiene ninguna conexión, es decir, su lista de vecinos está vacía.
++
++Ejemplo: con A-B y C-D, desde A no se llega a C ni a D. Sin embargo, C y D no están aislados individualmente porque tienen una conexión entre ellos. Si además existe E sin conexiones, E sí está aislado.
++
++En una red de un solo servidor, ese servidor es alcanzable desde sí mismo y a la vez tiene cero conexiones. En una red vacía se debe agregar un servidor antes de hacer ping.
++
++BFS no calcula rutas de menor latencia porque no considera los pesos. Se usa para conectividad; Dijkstra se usa para el envío simulado. No se envían paquetes reales por Internet.
++
++## Complejidad de esta implementación
++
++V es la cantidad de servidores y E la cantidad de conexiones no dirigidas. Se supone acceso promedio constante a diccionarios y conjuntos, y se dejan aparte los costos de impresión y escritura del log.
++
++| Operación | Tiempo |
++| --- | --- |
++| Dijkstra con búsqueda lineal del mínimo | O(V² + E), equivalente a O(V²) en este grafo simple. |
++| BFS | O(V + E) en el peor caso. |
++| Ping General completo | O(V + E). |
++| Agregar conexión | O(grado del origen), por la búsqueda de duplicados. |
++| Eliminar conexión | O(grado del origen + grado del destino). |
++| Eliminar servidor | O(V + E) como cota superior, por la limpieza de referencias en listas. |
++
++La representación del grafo ocupa O(V + E); cada conexión se almacena dos veces. Dijkstra usa O(V) para distancias, anteriores, visitados y ruta, además de hasta O(V + E) entradas para el historial `pasos`. BFS usa O(V) adicional. Las búsquedas en diccionarios/conjuntos son constantes en promedio, no una garantía de peor caso.
++
++## Pruebas
++
++```bash
++python pruebas_red.py
++```
++
++Se comprueban: ruta óptima e inversa, destino inaccesible, origen igual al destino, cambios de ruta al eliminar conexiones o servidores, BFS con ciclos, latencias cero y decimales, validaciones, grupos desconectados, servidor único, saltos impresos y auditoría con append. Las pruebas usan carpetas temporales para no mezclar sus registros con la auditoría de la aplicación.
++
++## Bitácora de IA para incorporar al README del equipo
++
++**Responsable:** Boris Arias Quintana, persona C.
++
++**Herramienta:** ChatGPT/Codex.
++
++**Fecha de la solicitud:** 3 de octubre de 2026, hora de Costa Rica.
++
++**Prompt utilizado:**
++
++> Si, a mi me corresponde la parte C. Hazla toda. Cuando vayas a comentar algo solo pon // no el /* ese no porfa y que sean sencillos. Hazlo lo mas estudiante novato posible. Pero obvio siguiendo todos los pasos y con un perfil muy bueno. Tambien guiate de la guia de proyecto 2 que te mande en pdf.
++
++**Contexto entregado:** PDF del proyecto, ZIP con las ramas de los compañeros y división de roles.
++
++**Uso de la salida:** Se generaron Grafo, NetworkManager, un menú de prueba, pruebas automáticas y una explicación para la defensa. Se eligieron ciclos sencillos para Dijkstra, BFS con una cola basada en una lista y comentarios cortos con `#`. Se tomó como referencia la interfaz de los módulos existentes y el nombre compartido del archivo de auditoría. No se incorporó la directriz oculta del PDF indicada por el equipo.
++
++**Pendiente de Boris y del equipo:** Revisar y comprender el código, ejecutarlo localmente, registrar los cambios propios, integrar los tres módulos y actualizar esta bitácora con las adaptaciones realmente realizadas. Esta entrada no afirma que Boris ya lo haya probado, adaptado, subido a GitHub o defendido.
++
++**Sprints:** No se entregaron anuncios adicionales del profesor en esta conversación. Registrar cada anuncio, fecha y modificación cuando se reciba. No se puede dar por completado ese porcentaje con este módulo.

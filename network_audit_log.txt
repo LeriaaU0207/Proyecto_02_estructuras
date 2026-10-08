@@ -40,3 +40,17 @@
 [2026-10-03 23:11:02] Usuario registrado: Usuario11
 [2026-10-03 23:11:02] Inicio de sesion exitoso: Usuario0
 [2026-10-03 23:11:02] Inicio de sesion exitoso: Usuario11
+[2026-10-07 19:28:25] [RED] Servidor agregado: A
+[2026-10-07 19:28:34] [RED] Servidor eliminado con sus conexiones, archivos y usuarios: A
+[2026-10-07 19:28:39] [RED] Servidor agregado: A
+[2026-10-07 19:29:14] [RED] Servidor eliminado con sus conexiones, archivos y usuarios: A
+[2026-10-07 19:29:20] [RED] Servidor agregado: A
+[2026-10-07 19:29:20] [RED] Servidor agregado: B
+[2026-10-07 19:29:20] [RED] Servidor agregado: C
+[2026-10-07 19:29:20] [RED] Servidor agregado: D
+[2026-10-07 19:29:20] [RED] Servidor agregado: E
+[2026-10-07 19:29:20] [RED] Conexión agregada: A <-> B, 4 ms
+[2026-10-07 19:29:20] [RED] Conexión agregada: A <-> C, 1 ms
+[2026-10-07 19:29:20] [RED] Conexión agregada: C <-> B, 2 ms
+[2026-10-07 19:29:20] [RED] Conexión agregada: B <-> D, 1 ms
+[2026-10-07 19:29:20] [RED] Conexión agregada: C <-> D, 5 ms
