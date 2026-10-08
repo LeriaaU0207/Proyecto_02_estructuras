@@ -1,14 +1,22 @@
 import os
 from nodo import Nodo
+from datetime import datetime
 #==============================================================================
 # FileSystemManager
 #==============================================================================
 #Clase que representa un árbol de directorios.
 
 class FileSystemManager:
-    def __init__(self):
+    def __init__(self, nombre_servidor="local"):
         self.raiz = Nodo("/", "carpeta")
+        self.nombre_servidor = nombre_servidor
 
+    def registrar_log(self, mensaje):
+        """Registra un mensaje en el archivo de auditoría."""
+        fecha_hora = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        with open("network_audit_log.txt", "a", encoding="utf-8") as archivo:
+            archivo.write(f"[{fecha_hora}] [FS][{self.nombre_servidor}] {mensaje}\n")
+    
     #busca un nodo por su ruta
     def _buscar_por_ruta(self,ruta):
         """sigue cada parte de la ruta desde la raíz."""
@@ -16,7 +24,6 @@ class FileSystemManager:
             return self.raiz
         if not ruta.startswith("/"):        #si no empieza con /
             raise ValueError("La ruta debe comenzar con '/'")  
-            return None
         
         partes = [parte for parte in ruta.split("/") if parte]  #separa las partes de la ruta
         actual = self.raiz
@@ -30,9 +37,10 @@ class FileSystemManager:
     def crear_carpeta(self, ruta_padre, nombre):
         padre = self._buscar_por_ruta(ruta_padre)               #busca el padre
         if padre is None:
-            raise Exception("Ruta no encontrada")                #si no existe, devuelve None   
-
-        return padre.crear_nodo(nombre, "carpeta")               #crea el nodo y devuelve el padre
+            raise ValueError("Ruta no encontrada")                #si no existe, devuelve None   
+        nuevo = padre.crear_nodo(nombre, "carpeta")               #crea el nodo y devuelve el padre
+        self.registrar_log(f"Carpeta creada: {ruta_padre.rstrip('/')}/{nombre}")
+        return nuevo
     
     #crea un archivo dentro de una carpeta
     def crear_archivo(self, ruta_padre, nombre):
@@ -40,7 +48,9 @@ class FileSystemManager:
         if padre is None:
             raise Exception("Ruta no encontrada")
         
-        return padre.crear_nodo(nombre, "archivo")               #crea el nodo y devuelve el padre  
+        nuevo = padre.crear_nodo(nombre, "archivo")               #crea el nodo y devuelve el padre
+        self.registrar_log(f"Archivo creado: {ruta_padre.rstrip('/')}/{nombre}")
+        return nuevo
 
     #busca archivos por nombre
     def buscar_archivo(self, nombre):
@@ -67,9 +77,9 @@ class FileSystemManager:
 
             if nodo.tipo == "carpeta" and nodo is not self.raiz:    #si es una carpeta y no es la raíz
                 nombre += "/"                                    #se agrega / al final
-                print(sangria + nombre)                          #imprime el nombre del nodo
+            print(sangria + nombre)                             #imprime el nombre del nodo
 
-                for hijo in nodo.hijos:
+            for hijo in nodo.hijos:
                     mostrar(hijo, profundidad + 1)               #llama a la función recursiva para imprimir el árbol
         mostrar(self.raiz, 0)
 
@@ -86,14 +96,14 @@ class FileSystemManager:
     def eliminar(self, ruta):
         if ruta == "/":                                         #si es la raíz
             raise ValueError("No se puede eliminar la raíz")     #se lanza una excepción
-        
         nodo = self._buscar_por_ruta(ruta)                      #busca el nodo
         if nodo is None:
             raise ValueError("Ruta no encontrada")
-
         padre = nodo.padre                                      #busca el padre
         if padre is None:
             raise ValueError("No se puede eliminar la raíz")
         padre.hijos.remove(nodo)
-        self._limpiar_subarbol(nodo)                             #limpia el árbol
+        self._limpiar_subarbol(nodo)  
+        self.registrar_log(f"Eliminado: {ruta}")                           #limpia el árbol
         return True
+    
