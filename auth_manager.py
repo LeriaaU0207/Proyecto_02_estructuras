@@ -16,9 +16,8 @@ class AuthManager:
             "a",
             encoding="utf-8"
         ) as archivo:
-
             archivo.write(
-            f"[{fecha_hora}] [AUTH] Usuario {self.nombre_servidor}: {mensaje}\n"
+            f"[{fecha_hora}] [AUTH] [{self.nombre_servidor}] {mensaje}\n"
             )
 
     # Registra un nuevo usuario

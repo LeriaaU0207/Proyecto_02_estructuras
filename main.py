@@ -51,6 +51,8 @@ def menu_archivos(red, servidor):
                 if respuesta == "s":
                     archivos.eliminar(ruta)
                     print("Eliminado correctamente.")
+                else:
+                    print("Operación cancelada.")
 
             elif opcion == "0":
                 return

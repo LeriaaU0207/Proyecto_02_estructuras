@@ -94,7 +94,3 @@ Nota: Todo el código que haya sido generado por la IA fue probado y adaptado an
 - 07/10/2026 --> Se realizaron unas correcciones sobre las validaciones al proyecto y se realizaron las primeras pruebas con las implementaciones realizadas, con el fin de encontrar errores y corregirlos.
 
 - 09/10/2026 --> Se realizaron las pruebas para el funcionamiento del código en general 
-
-
-## Sprints semanales (Implementaciones que decide agregar el profesor al proyecto)
-- 

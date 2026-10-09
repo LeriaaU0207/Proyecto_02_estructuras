@@ -25,7 +25,7 @@ class Nodo:
             raise ValueError("El tipo debe ser 'carpeta' o 'archivo'")
         #si el nodo es un archivo, se debe estar en una carpeta
         if self.tipo != "carpeta":
-            raise ValueError("No se puede crear un archivo dentro de un archivo")   
+            raise ValueError("No se puede crear un nodo dentro de un archivo")   
         #si el nombre del archivo no puede estar vacío o contener '/'
         if not isinstance(nombre, str) or nombre.strip() == "":
             raise ValueError("El nombre no puede estar vacío")
@@ -34,7 +34,7 @@ class Nodo:
             raise ValueError("El nombre no puede contener '/'")
         #si ya existe un archivo con ese nombre
         if self.buscar_hijo(nombre) is not None:
-            raise ValueError("Ya existe un archivo con ese nombre")
+            raise ValueError("Ya existe un nodo con ese nombre")
 
         #crea el nodo
         nuevo = Nodo(nombre, tipo, self)
