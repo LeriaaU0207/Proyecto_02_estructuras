@@ -46,7 +46,7 @@ class FileSystemManager:
     def crear_archivo(self, ruta_padre, nombre):
         padre = self._buscar_por_ruta(ruta_padre)                
         if padre is None:
-            raise Exception("Ruta no encontrada")
+            raise ValueError("Ruta no encontrada")
         
         nuevo = padre.crear_nodo(nombre, "archivo")               #crea el nodo y devuelve el padre
         self.registrar_log(f"Archivo creado: {ruta_padre.rstrip('/')}/{nombre}")

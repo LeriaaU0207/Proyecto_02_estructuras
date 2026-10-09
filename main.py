@@ -92,9 +92,11 @@ def menu_sesion(red, servidor, usuario):
             ).strip().lower()
 
             if respuesta == "s":
-                auth.eliminar_usuario(usuario)
-                print("Usuario eliminado. Sesión cerrada.")
-                return
+                if auth.eliminar_usuario(usuario):
+                    print("Usuario eliminado. Sesión cerrada.")
+                    return
+                else:
+                    print("No se pudo eliminar el usuario.")
 
         elif opcion == "0":
             auth.registrar_log(

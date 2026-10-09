@@ -17,7 +17,7 @@ class NetworkManager:
 
     def agregar_servidor(self, nombre):
         archivos = FileSystemManager(nombre)
-        auth = AuthManager()
+        auth = AuthManager(nombre)
 
         self.grafo.agregar_servidor(nombre)
         self.sistemas_archivos[nombre] = archivos
@@ -29,11 +29,13 @@ class NetworkManager:
     def eliminar_servidor(self, nombre):
         self.grafo.eliminar_servidor(nombre)
 
-        archivos = self.sistemas_archivos[nombre]
-        archivos._limpiar_subarbol(archivos.raiz)
+        archivos = self.sistemas_archivos.get(nombre)
+        if archivos is not None:
+            archivos._limpiar_subarbol(archivos.raiz)
+            del self.sistemas_archivos[nombre]
 
-        del self.sistemas_archivos[nombre]
-        del self.autenticaciones[nombre]
+        if nombre in self.autenticaciones:    
+            del self.autenticaciones[nombre]
 
         self.registrar_log(
             "Servidor eliminado con sus conexiones, archivos y usuarios: " + nombre

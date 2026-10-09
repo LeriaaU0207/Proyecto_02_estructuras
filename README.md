@@ -65,7 +65,7 @@ Repositorio de GitHub: https://github.com/LeriaaU0207/Proyecto_02_estructuras.gi
 ## Bitácora de Inteligencia Artificial
 ---
 Valeria Bahena Mújica - Persona A. Responsable de los árboles de directorios.
-Herramienta de IA utilizada: ChatGPT (GPT-6 Sol Light)
+Herramienta de IA utilizada: ChatGPT (GPT-6 Sol Light) y DeepSeek 
 Módulos creados: 
 - file_system_manager.py: Clase que representa un árbol de directorios.
 - nodo.py: Clase que representa un nodo de un árbol de directorios.
@@ -78,13 +78,17 @@ Consultas realizadas:
 - «Tengo un error en _limpiar_subarbol; ¿cómo lo corrijo?». --> Se identificó que nodo.hijos.clear = [] debía escribirse nodo.hijos.clear(). Se ejecutó nuevamente el programa para comprobar la corrección.
 - «¿Dónde coloco los try/except para que las pruebas inválidas no detengan el programa?». --> Se colocaron en el archivo de pruebas, alrededor de cada operación que debía fallar. Se verificaron nombres repetidos, creación dentro de un archivo y rutas inválidas.
 - «Genera pruebas para eliminar un archivo, borrar una carpeta en cascada, proteger la raíz y rechazar una ruta inexistente». --> Se prepararon escenarios independientes para comprobar el comportamiento del módulo. Actualizar esta fila con los resultados de las pruebas que efectivamente se hayan ejecutado.
+- «Te envío el proyecto a como lo tenemos montado como grupo, ya cumple con los requerimientos de la rúbrica del profesor?». --> Se revisó el código y se encontraron algunas correcciones que se realizaron, también hacía falta hacerle más pruebas para comprobar que el programa funcionaba correctamente.Faltba la integraación de los módulos en el menú principal, sistema por servidor, autenticación y auditoría en el file_system_manager.py. También se arreglaron bugs dentro de la función mostrar_arbol
+- «Ya quedaron los cambios implementados y ya este seria de as ultimas versiones del proyecto?» --> Se revisó el código y se encontraron algunas correcciones que se realizaron, también hacía falta hacerle más pruebas para comprobar que el programa funcionaba correctamente.
 
 Nota: Todo el código fue probado y adaptado antes de incorporarlo al proyecto
 ---
 
 - Semana 0: Se hizo la organización base del equipo y se repartó el trabajo en grupos. También se hizo la lectura de los requisitos y la definición de la estructura en la que se desarrollará el proyecto.
-- Semana 1: 
-27/09/2026 --> Valeria: Se crea la clase Nodo y se definen los métodos de búsqueda y creación de nodos. Se crea el archivo file_system_manager.py y se completa la clase FileSystemManager. Se completa la función main.py como un temporal para probar la estructura y se elimina despues. También se crea la bitácora de IA que se utilizó para el proyecto.
+
+- 27/09/2026 --> Valeria: Se crea la clase Nodo y se definen los métodos de búsqueda y creación de nodos. Se crea el archivo file_system_manager.py y se completa la clase FileSystemManager. Se completa la función main.py como un temporal para probar la estructura y se elimina despues. También se crea la bitácora de IA que se utilizó para el proyecto.
+- 07/10/2026 --> Se realizaron las primeras pruebas con las implementaciones realizadas y se encuentran varias faltas en el código.
+- ¿Cómo podría implementar la parte de persistencia a los servidores?? o las indicacaiones sugieren que sean sin eso? --> Como tal en la rubrica el unico requisito era como tal el registro de la auditoria y usuarios. 
 
 
 ## Sprints semanales (Implementaciones que decide agregar el profesor al proyecto)

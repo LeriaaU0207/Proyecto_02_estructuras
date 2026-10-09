@@ -54,3 +54,11 @@
 [2026-10-07 19:29:20] [RED] Conexión agregada: C <-> B, 2 ms
 [2026-10-07 19:29:20] [RED] Conexión agregada: B <-> D, 1 ms
 [2026-10-07 19:29:20] [RED] Conexión agregada: C <-> D, 5 ms
+[2026-10-08 00:29:21] [RED] Servidor agregado: Millie
+[2026-10-08 00:29:59] [RED] Servidor agregado: Moxxie
+[2026-10-08 00:30:43] [RED] Conexión agregada: Millie <-> Moxxie, 22.0 ms
+[2026-10-08 00:31:24] [RED] Ping general desde Millie; alcanzables: Millie, Moxxie; no alcanzables: ninguno; aislados: ninguno
+[2026-10-08 00:35:26] [RED] Ruta calculada: Moxxie -> Millie; costo total: 22.0 ms
+[2026-10-08 00:37:42] Usuario registrado: Valeria
+[2026-10-08 00:37:53] Inicio de sesion exitoso: Valeria
+[2026-10-08 00:42:16] Cierre de sesión en Moxxie: Valeria

@@ -3,9 +3,23 @@ from datetime import datetime
 
 
 class AuthManager:
-    def __init__(self):
+    def __init__(self, nombre_servidor="local"):
         self.tabla_usuarios = TablaHash()
+        self.nombre_servidor = nombre_servidor
 
+    # Guarda las acciones importantes en el archivo de auditoria
+    def registrar_log(self, mensaje):
+        fecha_hora = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        with open(
+            "network_audit_log.txt",
+            "a",
+            encoding="utf-8"
+        ) as archivo:
+
+            archivo.write(
+            f"[{fecha_hora}] [AUTH] Usuario {self.nombre_servidor}: {mensaje}\n"
+            )
 
     # Registra un nuevo usuario
     def registrar_usuario(self, nombre_usuario, contrasena):
@@ -72,18 +86,3 @@ class AuthManager:
     # Muestra la tabla hash
     def mostrar_tabla(self):
         self.tabla_usuarios.mostrar_tabla()
-
-
-    # Guarda las acciones importantes en el archivo de auditoria
-    def registrar_log(self, mensaje):
-        fecha_hora = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-        with open(
-            "network_audit_log.txt",
-            "a",
-            encoding="utf-8"
-        ) as archivo:
-
-            archivo.write(
-                "[" + fecha_hora + "] " + mensaje + "\n"
-            )
