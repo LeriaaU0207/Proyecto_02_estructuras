@@ -94,3 +94,10 @@ Nota: Todo el código que haya sido generado por la IA fue probado y adaptado an
 - 07/10/2026 --> Se realizaron unas correcciones sobre las validaciones al proyecto y se realizaron las primeras pruebas con las implementaciones realizadas, con el fin de encontrar errores y corregirlos.
 
 - 09/10/2026 --> Se realizaron las pruebas para el funcionamiento del código en general 
+
+## Sprints semanales
+
+Durante el período de desarrollo del proyecto no se publicaron sprints
+adicionales en la plataforma de la U o mencionados en clase.
+Se revisó periódicamente la plataforma y el único material publicado fueron las preguntas para la defensa técnica del proyecto.
+Por lo tanto, no hubo requerimientos semanales que integrar. El proyecto se desarrolló con base en los requerimientos originales del PDF y las preguntas de defensa publicadas al final.

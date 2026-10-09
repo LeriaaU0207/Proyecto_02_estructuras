@@ -75,3 +75,21 @@
 [2026-10-09 11:57:02] [RED] Servidor agregado: V
 [2026-10-09 11:58:34] [RED] Ruta calculada: V -> E; sin conexión
 [2026-10-09 12:12:34] [RED] Ruta calculada: B -> E; sin conexión
+[2026-10-09 12:23:54] [RED] Servidor agregado: A
+[2026-10-09 12:23:54] [RED] Servidor agregado: B
+[2026-10-09 12:23:54] [RED] Conexión agregada: A <-> B, 5 ms
+[2026-10-09 12:23:54] [AUTH] [A] Usuario registrado: Valeria
+[2026-10-09 12:23:54] [AUTH] [A] Inicio de sesion exitoso: Valeria
+[2026-10-09 12:23:54] [FS][A] Carpeta creada: /docs
+[2026-10-09 12:23:54] [FS][A] Archivo creado: /docs/nota.txt
+[2026-10-09 12:23:54] [RED] Ruta calculada: A -> B; costo total: 5 ms
+[2026-10-09 12:23:54] [RED] Servidor eliminado con sus conexiones, archivos y usuarios: A
+[2026-10-09 12:30:56] [RED] Servidor agregado: A
+[2026-10-09 12:30:56] [RED] Servidor agregado: B
+[2026-10-09 12:30:56] [RED] Conexión agregada: A <-> B, 5 ms
+[2026-10-09 12:30:56] [AUTH] [A] Usuario registrado: Valeria
+[2026-10-09 12:30:56] [AUTH] [A] Inicio de sesion exitoso: Valeria
+[2026-10-09 12:30:56] [FS][A] Carpeta creada: /docs
+[2026-10-09 12:30:56] [FS][A] Archivo creado: /docs/nota.txt
+[2026-10-09 12:30:56] [RED] Ruta calculada: A -> B; costo total: 5 ms
+[2026-10-09 12:30:56] [RED] Servidor eliminado con sus conexiones, archivos y usuarios: A
