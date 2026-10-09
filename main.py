@@ -1,3 +1,4 @@
+
 import os
 from network_manager import NetworkManager
 from menu_red import menu_red
@@ -111,8 +112,7 @@ def menu_sesion(red, servidor, usuario):
             print("Opción inválida.")
 
 
-def entrar_servidor(red):
-    servidor = input("Nombre del servidor: ").strip()
+def entrar_servidor_directo(red, servidor):
     auth = red.obtener_auth(servidor)
 
     while True:
@@ -151,6 +151,11 @@ def entrar_servidor(red):
                 print("Usuario o contraseña incorrectos.")
 
 
+def entrar_servidor(red):
+    servidor = input("Nombre del servidor: ").strip()
+    entrar_servidor_directo(red, servidor)
+
+
 def main():
     carpeta_proyecto = os.path.dirname(os.path.abspath(__file__))
     os.chdir(carpeta_proyecto)
@@ -164,7 +169,8 @@ def main():
         print("\n--- SISTEMA OPERATIVO DE RED ---")
         print("1. Administrar red, rutas y ping")
         print("2. Entrar a un servidor")
-        print("3. Ver auditoría")
+        print("3. Buscar archivo en toda la red")
+        print("4. Ver auditoría")
         print("0. Salir")
 
         opcion = input("Opción: ").strip()
@@ -177,6 +183,45 @@ def main():
                 entrar_servidor(red)
 
             elif opcion == "3":
+                nombre = input(
+                    "Nombre del archivo a buscar: "
+                ).strip()
+
+                if not nombre:
+                    print("Debe escribir un nombre de archivo.")
+                    continue
+
+                resultados = red.buscar_archivo_global(nombre)
+
+                if not resultados:
+                    print(
+                        f"No se encontró '{nombre}' "
+                        "en ningún servidor."
+                    )
+                else:
+                    print(f"\n'{nombre}' encontrado en:")
+
+                    for servidor, rutas in resultados.items():
+                        for ruta in rutas:
+                            print(
+                                f"  - Servidor {servidor}: {ruta}"
+                            )
+
+                    elegido = input(
+                        "\n¿Desea entrar a algún servidor? "
+                        "(nombre o Enter para volver): "
+                    ).strip()
+
+                    if elegido:
+                        if elegido in resultados:
+                            entrar_servidor_directo(red, elegido)
+                        else:
+                            print(
+                                "Seleccione uno de los "
+                                "servidores mostrados."
+                            )
+
+            elif opcion == "4":
                 red.mostrar_auditoria()
 
             elif opcion == "0":
@@ -191,7 +236,10 @@ def main():
 
         except OSError as error:
             print("No se pudo acceder a la auditoría:", error)
-            print("La operación pudo aplicarse. Revise el estado del sistema.")
+            print(
+                "La operación pudo aplicarse. "
+                "Revise el estado del sistema."
+            )
 
 
 if __name__ == "__main__":
